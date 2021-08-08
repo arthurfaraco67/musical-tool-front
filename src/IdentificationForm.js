@@ -12,11 +12,11 @@ export default function IdentificationForm() {
   return (
     <div>
       <h1>
-        Name is: {name} & Group is: {group}
+        Nome: {name} - Grupo: {group}
       </h1>
       <input type="text" value={name} onChange={updateName} />
       <input type="text" value={group} onChange={updateGroup} />
-      <button onClick={handleSubmit}>Submit</button>
+      <button onClick={handleSubmit}>Próximo</button>
     </div>
   );
 }
