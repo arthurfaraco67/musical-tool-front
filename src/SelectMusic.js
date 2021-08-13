@@ -1,11 +1,12 @@
 import React from "react";
 import useInputState from "./hooks/useInputState";
 
-export default function SelectMusic() {
-  const [music, updateMusic, resetMusic] = useInputState(1);
+export default function SelectMusic(props) {
+  const [music, updateMusic] = useInputState(1);
 
   const handleSubmit = () => {
-    resetMusic();
+    props.updateAnalysis({ music });
+    props.nextStep();
   };
   return (
     <div>

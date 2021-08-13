@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useInputState from "./hooks/useInputState";
 
-export default function IdentificationForm() {
-  const [name, updateName, resetName] = useInputState("");
-  const [group, updateGroup, resetGroup] = useInputState("");
+export default function IdentificationForm(props) {
+  const [name, updateName] = useInputState("");
+  const [group, updateGroup] = useInputState("");
+
+  useEffect(() => {
+    document.title = `Hello ${name}`;
+  }, [name]);
 
   const handleSubmit = () => {
-    resetName();
-    resetGroup();
+    props.updateAnalysis({ name, group });
+    props.nextStep();
   };
+
   return (
     <div>
       <h1>
