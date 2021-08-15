@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import IdentificationForm from "./IdentificationForm";
 import SelectMusic from "./SelectMusic";
+import AnalyzeMusic from "./AnalyzeMusic";
 
 export default function Formflow(props) {
   const [step, setStep] = useState(1);
@@ -27,6 +28,10 @@ export default function Formflow(props) {
     case 2:
       return (
         <SelectMusic nextStep={nextStep} updateAnalysis={updateAnalysis} />
+      );
+    case 3:
+      return (
+        <AnalyzeMusic nextStep={nextStep} updateAnalysis={updateAnalysis} />
       );
     default:
       return <h1>Other steps...</h1>;
