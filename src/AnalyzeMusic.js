@@ -11,10 +11,15 @@ export default function AnalyzeMusic(props) {
   const [duration, updateDuration] = useSliderState(0);
   const [musicAnalysis, updateMusicAnalysis, resetMusicAnalysis] =
     useSliderState([]);
+
+  const params = ["sust", "improv"];
   let audio;
 
+  const setDuration = (e) => {
+    updateDuration(e.srcElement.duration);
+  };
+
   const handlePlay = () => {
-    updateTimestamp(audio.currentTime);
     audio.play();
   };
 
@@ -29,17 +34,25 @@ export default function AnalyzeMusic(props) {
     resetMusicAnalysis();
   };
 
-  const handleListen = () => {
-    updateMusicAnalysis(
-      musicAnalysis.concat({
-        timestamp,
-        value: value,
-      })
-    );
+  const handleListen = (time) => {
+    if (timestamp !== time) {
+      updateTimestamp(Math.floor(time));
+
+      updateMusicAnalysis(
+        musicAnalysis.concat({
+          timestamp: Math.floor(time),
+          value: value,
+        })
+      );
+    }
+  };
+
+  const handleEnded = () => {
+    updateTimestamp(duration);
   };
 
   const handleSubmit = () => {
-    props.updateAnalysis({ musicAnalysis });
+    props.updateAnalysis({ params, musicAnalysis });
     props.nextStep();
   };
 
@@ -61,16 +74,14 @@ export default function AnalyzeMusic(props) {
       <button onClick={handleReset}>Stop and Reset</button>
 
       <ReactAudioPlayer
-        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+        src="https://docs.google.com/uc?export=download&id=1pSXTLJ2WZVTqvlj4THgOImalzLA_SWcX"
         listenInterval={1000}
+        onCanPlay={setDuration}
         onListen={handleListen}
+        onEnded={handleEnded}
         ref={(element) => {
           if (element) {
             audio = element.audioEl.current;
-            if (audio.duration > 0) {
-              updateDuration(audio.duration);
-              updateTimestamp(Math.floor(audio.currentTime));
-            }
           }
         }}
       />
