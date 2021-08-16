@@ -4,7 +4,7 @@ import SelectMusic from "./SelectMusic";
 import AnalyzeMusic from "./AnalyzeMusic";
 
 export default function Formflow() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
   const [analysis, setAnalysis] = useState({});
 
   const nextStep = () => {
