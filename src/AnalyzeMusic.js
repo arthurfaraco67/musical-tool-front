@@ -1,25 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useSliderState from "./hooks/useSliderState";
+import ReactAudioPlayer from "react-audio-player";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
 export default function AnalyzeMusic(props) {
-  const [sliderValue, updateSliderValue] = useSliderState(5);
-  const [musicAnalysis, updateMusicAnalysis] = useSliderState([]);
-  const [time, setTime] = useState(Date.now());
+  const [value, updateValue, resetValue] = useSliderState(0.5);
+  const [musicAnalysis, updateMusicAnalysis, resetMusicAnalysis] =
+    useSliderState([]);
+  let audio;
 
-  useEffect(() => {
-    const interval = setInterval(() => setTime(Date.now()), 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  const handlePlay = () => {
+    // resetValue();
+    resetMusicAnalysis();
+    audio.play();
+  };
 
-  useEffect(() => {
+  const handleStop = () => {
+    audio.pause();
+    audio.currentTime = 0;
+  };
+
+  const handleListen = (timestamp) => {
     updateMusicAnalysis(
-      musicAnalysis.concat({ timestamp: time, value: sliderValue })
+      musicAnalysis.concat({
+        timestamp: Math.floor(timestamp),
+        value: value,
+      })
     );
-  }, [time]);
+  };
 
   const handleSubmit = () => {
     props.updateAnalysis({ musicAnalysis });
@@ -28,11 +37,26 @@ export default function AnalyzeMusic(props) {
 
   return (
     <div>
+      <button onClick={handlePlay}>Play</button>
+      <button onClick={handleStop}>Stop</button>
+
+      <ReactAudioPlayer
+        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+        listenInterval={1000}
+        onListen={handleListen}
+        ref={(element) => {
+          if (element) {
+            audio = element.audioEl.current;
+          }
+        }}
+      />
+
       <Slider
-        defaultValue={sliderValue}
+        defaultValue={value}
         min={0}
-        max={10}
-        onAfterChange={updateSliderValue}
+        max={1}
+        step={0.1}
+        onAfterChange={updateValue}
       />
       <button onClick={handleSubmit}>Iniciar</button>
     </div>

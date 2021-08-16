@@ -3,7 +3,7 @@ import IdentificationForm from "./IdentificationForm";
 import SelectMusic from "./SelectMusic";
 import AnalyzeMusic from "./AnalyzeMusic";
 
-export default function Formflow(props) {
+export default function Formflow() {
   const [step, setStep] = useState(1);
   const [analysis, setAnalysis] = useState({});
 
