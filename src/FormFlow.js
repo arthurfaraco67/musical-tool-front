@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import IdentificationForm from './IdentificationForm';
 import SelectMusic from './SelectMusic';
+import PresentAnalysis from './PresentAnalysis';
 import AnalyzeMusic from './analyzeMusic/AnalyzeMusic';
 
 export default function Formflow() {
@@ -15,8 +16,6 @@ export default function Formflow() {
 		setAnalysis({ ...analysis, ...newResponse });
 	};
 
-	console.log(analysis);
-
 	switch (step) {
 		case 1:
 			return <IdentificationForm nextStep={nextStep} updateAnalysis={updateAnalysis} />;
@@ -24,7 +23,9 @@ export default function Formflow() {
 			return <SelectMusic nextStep={nextStep} updateAnalysis={updateAnalysis} />;
 		case 3:
 			return <AnalyzeMusic nextStep={nextStep} updateAnalysis={updateAnalysis} />;
+		case 4:
+			return <PresentAnalysis analysis={analysis} />;
 		default:
-			return <h1>Other steps...</h1>;
+			return <IdentificationForm nextStep={nextStep} updateAnalysis={updateAnalysis} />;
 	}
 }
