@@ -1,10 +1,9 @@
 import React from 'react';
 import Timestamp from './components/Timestamp';
 import ControlButtons from './components/ControlButtons';
+import Slider from './components/Slider';
 import useSliderState from '../hooks/useSliderState';
 import ReactAudioPlayer from 'react-audio-player';
-import Slider from 'rc-slider';
-import 'rc-slider/assets/index.css';
 
 export default function AnalyzeMusic(props) {
 	const [ value, updateValue ] = useSliderState(0.5);
@@ -13,7 +12,7 @@ export default function AnalyzeMusic(props) {
 	const [ musicAnalysis, updateMusicAnalysis, resetMusicAnalysis ] = useSliderState([]);
 	const [ songEnded, updateSongEnded ] = useSliderState(false);
 
-	const params = [ 'sust', 'improv' ];
+	const params = [ 'Sustentação', 'Improvisação' ];
 	let audio;
 
 	const setDuration = (e) => {
@@ -91,7 +90,8 @@ export default function AnalyzeMusic(props) {
 					}
 				}}
 			/>
-			<Slider defaultValue={value} min={0} max={1} step={0.1} onAfterChange={updateValue} />
+
+			<Slider params={params} value={value} updateValue={updateValue} />
 			<button disabled={!songEnded} onClick={handleSubmit}>
 				Enviar
 			</button>
