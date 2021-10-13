@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Timestamp from './components/Timestamp';
 import ControlButtons from './components/ControlButtons';
 import useSliderState from '../hooks/useSliderState';
@@ -11,8 +11,7 @@ export default function AnalyzeMusic(props) {
 	const [ timestamp, updateTimestamp, resetTimestamp ] = useSliderState(0);
 	const [ duration, updateDuration ] = useSliderState(0);
 	const [ musicAnalysis, updateMusicAnalysis, resetMusicAnalysis ] = useSliderState([]);
-	const [ disableSubmit, updateDisableSubmit ] = useSliderState(true);
-	const [ disableControls, updateDisableControls ] = useSliderState(false);
+	const [ songEnded, updateSongEnded ] = useSliderState(false);
 
 	const params = [ 'sust', 'improv' ];
 	let audio;
@@ -37,20 +36,33 @@ export default function AnalyzeMusic(props) {
 	};
 
 	const handleListen = (time) => {
-		if (timestamp !== time) {
-			updateTimestamp(Math.floor(time));
+		const roundedTime = Math.floor(time);
 
+		if (timestamp !== roundedTime) {
+			updateTimestamp(Math.floor(roundedTime));
 			updateMusicAnalysis(
 				musicAnalysis.concat({
-					timestamp: Math.floor(time),
-					value: value
+					timestamp: Math.floor(roundedTime),
+					value
 				})
 			);
 		}
 	};
 
 	const handleEnded = () => {
-		updateTimestamp(duration);
+		const roundedDuration = Math.floor(duration);
+
+		updateSongEnded(true);
+		updateTimestamp(roundedDuration);
+
+		if (timestamp !== roundedDuration) {
+			updateMusicAnalysis(
+				musicAnalysis.concat({
+					timestamp: roundedDuration,
+					value
+				})
+			);
+		}
 	};
 
 	const handleSubmit = () => {
@@ -58,27 +70,18 @@ export default function AnalyzeMusic(props) {
 		props.nextStep();
 	};
 
-	useEffect(
-		() => {
-			const openAnalysis = timestamp === 0 || timestamp < duration;
-			updateDisableSubmit(openAnalysis);
-			updateDisableControls(!openAnalysis);
-		},
-		[ timestamp, duration ]
-	);
-
 	return (
 		<div>
 			<Timestamp timestamp={timestamp} duration={duration} />
 			<ControlButtons
-				disableControls={disableControls}
+				disableControls={songEnded}
 				handlePlay={handlePlay}
 				handlePause={handlePause}
 				handleReset={handleReset}
 			/>
 			<ReactAudioPlayer
 				src='https://docs.google.com/uc?export=download&id=1pSXTLJ2WZVTqvlj4THgOImalzLA_SWcX'
-				listenInterval={1000}
+				listenInterval={500}
 				onCanPlay={setDuration}
 				onListen={handleListen}
 				onEnded={handleEnded}
@@ -89,7 +92,7 @@ export default function AnalyzeMusic(props) {
 				}}
 			/>
 			<Slider defaultValue={value} min={0} max={1} step={0.1} onAfterChange={updateValue} />
-			<button disabled={disableSubmit} onClick={handleSubmit}>
+			<button disabled={!songEnded} onClick={handleSubmit}>
 				Enviar
 			</button>
 		</div>
