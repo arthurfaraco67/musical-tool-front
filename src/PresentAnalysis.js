@@ -1,5 +1,4 @@
 import React from 'react';
-import { toMilliseconds } from './utils';
 
 export default function PresentAnalys(props) {
 	const { name, group, music, musicAnalysis } = props.analysis;
@@ -13,7 +12,7 @@ export default function PresentAnalys(props) {
 			<p>Música: {music}</p>
 			{musicAnalysis.map((music, index) => (
 				<p key={index}>
-					{music.value} em {toMilliseconds(music.timestamp)}
+					{music.value} em {music.timestamp}
 				</p>
 			))}
 		</div>

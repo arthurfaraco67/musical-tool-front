@@ -12,7 +12,7 @@ export default function Slider(props) {
 				<p>{params[1]}</p>
 			</div>
 
-			<RCSlider defaultValue={value} min={0} max={1} step={0.1} onAfterChange={updateValue} />
+			<RCSlider defaultValue={value} min={0} max={10} step={1} onAfterChange={updateValue} />
 		</div>
 	);
 }
