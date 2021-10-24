@@ -4,7 +4,6 @@ import ControlButtons from './components/ControlButtons';
 import Slider from './components/Slider';
 import useSliderState from '../hooks/useSliderState';
 import ReactAudioPlayer from 'react-audio-player';
-import { toMilliseconds } from '../utils';
 
 export default function AnalyzeMusic(props) {
 	const [ value, updateValue ] = useSliderState(5);
@@ -42,7 +41,7 @@ export default function AnalyzeMusic(props) {
 			updateTimestamp(Math.floor(roundedTime));
 			updateMusicAnalysis(
 				musicAnalysis.concat({
-					timestamp: toMilliseconds(roundedTime),
+					timestamp: roundedTime,
 					value
 				})
 			);
@@ -58,7 +57,7 @@ export default function AnalyzeMusic(props) {
 		if (timestamp !== roundedDuration) {
 			updateMusicAnalysis(
 				musicAnalysis.concat({
-					timestamp: toMilliseconds(roundedDuration),
+					timestamp: roundedDuration,
 					value
 				})
 			);

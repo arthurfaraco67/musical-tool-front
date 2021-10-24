@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-export default function PresentAnalys(props) {
-	const { name, group, music, musicAnalysis } = props.analysis;
+export default function PresentAnalys({ analysis, postAnalysis }) {
+	const { name, group, music, musicAnalysis } = analysis;
+
+	useEffect(() => {
+		postAnalysis();
+	});
 
 	return (
 		<div>
