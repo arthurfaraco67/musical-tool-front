@@ -79,7 +79,7 @@ export default function AnalyzeMusic(props) {
 				handleReset={handleReset}
 			/>
 			<ReactAudioPlayer
-				src='https://docs.google.com/uc?export=download&id=1pSXTLJ2WZVTqvlj4THgOImalzLA_SWcX'
+				src={props.musicPath}
 				listenInterval={500}
 				onCanPlay={setDuration}
 				onListen={handleListen}
