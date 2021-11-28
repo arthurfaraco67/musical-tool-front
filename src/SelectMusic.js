@@ -1,5 +1,5 @@
-import React from 'react';
-import useInputState from './hooks/useInputState';
+import React from "react";
+import useInputState from "./hooks/useInputState";
 
 export default function SelectMusic({ songs, nextStep, updateAnalysis }) {
 	const [ music, updateMusic ] = useInputState(songs[0].music);

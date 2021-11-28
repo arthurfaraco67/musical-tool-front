@@ -1,4 +1,4 @@
-import prettyMilliseconds from 'pretty-ms';
+import prettyMilliseconds from "pretty-ms";
 
 export const toMilliseconds = (time) => {
 	return time
@@ -6,5 +6,7 @@ export const toMilliseconds = (time) => {
 				colonNotation: true,
 				secondsDecimalDigits: 0
 			})
-		: '0:00';
+		: "0:00";
 };
+
+export const musicPath = (id) => `https://docs.google.com/uc?export=download&id=${id}`;

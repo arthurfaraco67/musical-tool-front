@@ -1,9 +1,10 @@
-import React from 'react';
-import Timestamp from './components/Timestamp';
-import ControlButtons from './components/ControlButtons';
-import Slider from './components/Slider';
-import useSliderState from '../hooks/useSliderState';
-import ReactAudioPlayer from 'react-audio-player';
+import React from "react";
+import { musicPath } from "../utils";
+import Timestamp from "./components/Timestamp";
+import ControlButtons from "./components/ControlButtons";
+import Slider from "./components/Slider";
+import useSliderState from "../hooks/useSliderState";
+import ReactAudioPlayer from "react-audio-player";
 
 export default function AnalyzeMusic(props) {
 	const [ value, updateValue ] = useSliderState(5);
@@ -12,7 +13,9 @@ export default function AnalyzeMusic(props) {
 	const [ musicAnalysis, updateMusicAnalysis, resetMusicAnalysis ] = useSliderState([]);
 	const [ songEnded, updateSongEnded ] = useSliderState(false);
 
-	const params = [ 'Sustentação', 'Improvisação' ];
+	const { updateAnalysis, nextStep, musicId } = props;
+
+	const params = [ "Sustentação", "Improvisação" ];
 	let audio;
 
 	const setDuration = (e) => {
@@ -65,8 +68,8 @@ export default function AnalyzeMusic(props) {
 	};
 
 	const handleSubmit = () => {
-		props.updateAnalysis({ params, musicAnalysis });
-		props.nextStep();
+		updateAnalysis({ params, musicAnalysis });
+		nextStep();
 	};
 
 	return (
@@ -79,7 +82,7 @@ export default function AnalyzeMusic(props) {
 				handleReset={handleReset}
 			/>
 			<ReactAudioPlayer
-				src={props.musicPath}
+				src={musicPath(musicId)}
 				listenInterval={500}
 				onCanPlay={setDuration}
 				onListen={handleListen}
