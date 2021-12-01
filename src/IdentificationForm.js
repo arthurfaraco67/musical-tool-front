@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import useInputState from './hooks/useInputState';
-import { TextField, Button } from '@mui/material';
+import React, { useEffect } from "react";
+import useInputState from "./hooks/useInputState";
+import { TextField, Button } from "@mui/material";
 
-export default function IdentificationForm(props) {
-	const [ name, updateName ] = useInputState('');
-	const [ group, updateGroup ] = useInputState('');
+export default function IdentificationForm({ updateAnalysis, nextStep }) {
+	const [ name, updateName ] = useInputState("");
+	const [ group, updateGroup ] = useInputState("");
 
 	useEffect(
 		() => {
@@ -14,34 +14,37 @@ export default function IdentificationForm(props) {
 	);
 
 	const handleSubmit = () => {
-		props.updateAnalysis({ name, group });
-		props.nextStep();
+		updateAnalysis({ name, group });
+		nextStep();
 	};
 
 	return (
-		<div>
-			<h1>
-				Nome: {name} - Grupo: {group}
-			</h1>
-			<TextField
-				id='name'
-				type='text'
-				value={name}
-				onChange={updateName}
-				label='Nome'
-				variant='standard'
-				color='secondary'
-			/>
-			<TextField
-				id='group'
-				type='text'
-				value={group}
-				onChange={updateGroup}
-				label='Grupo'
-				variant='standard'
-				color='secondary'
-			/>
-			<Button variant='contained' color='secondary' onClick={handleSubmit}>
+		<div className="form-container">
+			<h1>Análise de música</h1>
+
+			<div>
+				<TextField
+					id="name"
+					type="text"
+					value={name}
+					onChange={updateName}
+					label="Nome"
+					variant="standard"
+					color="secondary"
+					sx={{ mr: 4 }}
+				/>
+				<TextField
+					id="group"
+					type="text"
+					value={group}
+					onChange={updateGroup}
+					label="Grupo"
+					variant="standard"
+					color="secondary"
+				/>
+			</div>
+
+			<Button variant="contained" color="secondary" onClick={handleSubmit} sx={{ mt: 4 }}>
 				Próximo
 			</Button>
 		</div>

@@ -1,19 +1,21 @@
 import React from "react";
+
 import { musicPath } from "../utils";
+import useSliderState from "../hooks/useSliderState";
+
 import Timestamp from "./components/Timestamp";
 import ControlButtons from "./components/ControlButtons";
 import Slider from "./components/Slider";
-import useSliderState from "../hooks/useSliderState";
-import ReactAudioPlayer from "react-audio-player";
 
-export default function AnalyzeMusic(props) {
+import ReactAudioPlayer from "react-audio-player";
+import { Button } from "@mui/material";
+
+export default function AnalyzeMusic({ updateAnalysis, nextStep, musicId }) {
 	const [ value, updateValue ] = useSliderState(5);
 	const [ timestamp, updateTimestamp, resetTimestamp ] = useSliderState(0);
 	const [ duration, updateDuration ] = useSliderState(0);
 	const [ musicAnalysis, updateMusicAnalysis, resetMusicAnalysis ] = useSliderState([]);
 	const [ songEnded, updateSongEnded ] = useSliderState(false);
-
-	const { updateAnalysis, nextStep, musicId } = props;
 
 	const params = [ "Sustentação", "Improvisação" ];
 	let audio;
@@ -73,7 +75,7 @@ export default function AnalyzeMusic(props) {
 	};
 
 	return (
-		<div>
+		<div className="form-container analysis">
 			<Timestamp timestamp={timestamp} duration={duration} />
 			<ControlButtons
 				disableControls={songEnded}
@@ -95,9 +97,10 @@ export default function AnalyzeMusic(props) {
 			/>
 
 			<Slider params={params} value={value} updateValue={updateValue} />
-			<button disabled={!songEnded} onClick={handleSubmit}>
+
+			<Button variant="contained" color="secondary" onClick={handleSubmit} sx={{ mt: 4 }}>
 				Enviar
-			</button>
+			</Button>
 		</div>
 	);
 }

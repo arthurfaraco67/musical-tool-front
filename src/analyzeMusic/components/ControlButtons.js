@@ -1,20 +1,30 @@
-import React from 'react';
-import 'rc-slider/assets/index.css';
+import React from "react";
+import { Button } from "@mui/material";
 
-export default function ControlButtons(props) {
-	const { disableControls, handlePlay, handlePause, handleReset } = props;
-
+export default function ControlButtons({ disableControls, handlePlay, handlePause, handleReset }) {
 	return (
 		<div>
-			<button disabled={disableControls} onClick={handlePlay}>
-				Play
-			</button>
-			<button disabled={disableControls} onClick={handlePause}>
-				Pause
-			</button>
-			<button disabled={disableControls} onClick={handleReset}>
-				Stop and Reset
-			</button>
+			<Button
+				variant="contained"
+				color="secondary"
+				disabled={disableControls}
+				onClick={handlePlay}
+				sx={{ mr: 2 }}
+			>
+				Tocar
+			</Button>
+			<Button
+				variant="contained"
+				color="secondary"
+				disabled={disableControls}
+				onClick={handlePause}
+				sx={{ mr: 2 }}
+			>
+				Pausar
+			</Button>
+			<Button variant="contained" color="secondary" disabled={disableControls} onClick={handleReset}>
+				Resetar
+			</Button>
 		</div>
 	);
 }
