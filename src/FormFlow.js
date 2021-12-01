@@ -19,6 +19,10 @@ export default function Formflow() {
 		setStep(step + 1);
 	};
 
+	const firstStep = () => {
+		setStep(1);
+	};
+
 	const getSongs = () => {
 		axios
 			.get(getURL, { headers: { "Content-Type": "application/json" } })
@@ -67,7 +71,7 @@ export default function Formflow() {
 		case 3:
 			return <AnalyzeMusic musicId={musicId} nextStep={nextStep} updateAnalysis={updateAnalysis} />;
 		case 4:
-			return <PresentAnalysis analysis={analysis} postAnalysis={postAnalysis} />;
+			return <PresentAnalysis firstStep={firstStep} analysis={analysis} postAnalysis={postAnalysis} />;
 		default:
 			return <IdentificationForm nextStep={nextStep} updateAnalysis={updateAnalysis} />;
 	}
